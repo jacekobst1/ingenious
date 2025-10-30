@@ -1,0 +1,92 @@
+{
+    "config": {
+        "fail-on-first-error": false
+    },
+    "commit-msg": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "\\Ramsey\\CaptainHook\\ValidateConventionalCommit",
+                "options": {
+                    "config": {
+                        "typeCase": "lower",
+                        "types": [
+                            "build",
+                            "chore",
+                            "ci",
+                            "docs",
+                            "feat",
+                            "fix",
+                            "other",
+                            "perf",
+                            "refactor",
+                            "revert",
+                            "style",
+                            "test"
+                        ],
+                        "scopeCase": "camel",
+                        "scopeRequired": false,
+                        "scopes": [],
+                        "descriptionCase": null,
+                        "descriptionEndMark": "",
+                        "bodyRequired": false,
+                        "bodyWrapWidth": null,
+                        "requiredFooters": []
+                    }
+                }
+            }
+        ]
+    },
+    "pre-push": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "make pint-check"
+            },
+            {
+                "action": "make phpstan-check"
+            },
+            {
+                "action": "make test"
+            }
+        ]
+    },
+    "pre-commit": {
+        "enabled": true,
+        "actions": [
+            {
+                "action": "make pint-check {$STAGED_FILES|replace:_ide_helper_models.php|with:}"
+            },
+            {
+                "action": "make phpstan-check {$STAGED_FILES|replace:_ide_helper_models.php|with:}"
+            },
+            {
+                "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting"
+            }
+        ]
+    },
+    "prepare-commit-msg": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-commit": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-merge": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-checkout": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-rewrite": {
+        "enabled": false,
+        "actions": []
+    },
+    "post-change": {
+        "enabled": false,
+        "actions": []
+    }
+}
