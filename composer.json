@@ -10,7 +10,8 @@
     "require": {
         "php": "^8.4",
         "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10"
+        "laravel/tinker": "^2.10",
+        "spatie/laravel-data": "^4.18"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.6",
