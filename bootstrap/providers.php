@@ -1,5 +1,6 @@
 <?php
 
 return [
-    \Modules\Notifications\Infrastructure\Providers\NotificationServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    Modules\Notifications\Infrastructure\Providers\NotificationServiceProvider::class,
 ];
