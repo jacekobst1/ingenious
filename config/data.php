@@ -2,11 +2,15 @@
 
 declare(strict_types=1);
 
+use App\Casts\SpatieData\MoneyDataCast;
+use App\Casts\SpatieData\UuidDataCast;
+use Brick\Money\Money;
 use Illuminate\Contracts\Support\Arrayable;
+use Ramsey\Uuid\UuidInterface;
 use Spatie\LaravelData\Casts\DateTimeInterfaceCast;
 use Spatie\LaravelData\Casts\EnumCast;
-use Spatie\LaravelData\Normalizers\ArrayNormalizer;
 use Spatie\LaravelData\Normalizers\ArrayableNormalizer;
+use Spatie\LaravelData\Normalizers\ArrayNormalizer;
 use Spatie\LaravelData\Normalizers\JsonNormalizer;
 use Spatie\LaravelData\Normalizers\ModelNormalizer;
 use Spatie\LaravelData\Normalizers\ObjectNormalizer;
@@ -69,6 +73,8 @@ return [
         DateTimeInterface::class => DateTimeInterfaceCast::class,
         BackedEnum::class => EnumCast::class,
         //        Enumerable::class => Spatie\LaravelData\Casts\EnumerableCast::class,
+        UuidInterface::class => UuidDataCast::class,
+        Money::class => MoneyDataCast::class,
     ],
 
     /*
