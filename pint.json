@@ -1,0 +1,23 @@
+{
+    "preset": "per",
+    "rules": {
+        "@PHP84Migration": true,
+        "align_multiline_comment": true,
+        "assign_null_coalescing_to_coalesce_equal": true,
+        "blank_line_after_namespace": true,
+        "blank_line_after_opening_tag": true,
+        "braces": true,
+        "declare_strict_types": true,
+        "fully_qualified_strict_types": {
+            "import_symbols": true
+        },
+        "global_namespace_import": true,
+        "no_unused_imports": true,
+        "phpdoc_to_return_type": true,
+        "single_quote": true,
+        "type_declaration_spaces": true,
+        "void_return": true,
+        "not_operator_with_space": false,
+        "not_operator_with_successor_space": false
+    }
+}

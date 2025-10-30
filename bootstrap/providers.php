@@ -1,6 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
+use App\Providers\AppServiceProvider;
+use Modules\Notifications\Infrastructure\Providers\NotificationServiceProvider;
+
 return [
-    App\Providers\AppServiceProvider::class,
-    Modules\Notifications\Infrastructure\Providers\NotificationServiceProvider::class,
+    AppServiceProvider::class,
+    NotificationServiceProvider::class,
 ];
