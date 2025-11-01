@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Modules\Notifications\Infrastructure\Drivers;
+namespace Modules\Notifications\Application\Contracts;
 
 interface DriverInterface
 {

@@ -6,7 +6,7 @@ namespace Modules\Notifications\Application\Facades;
 
 use Modules\Notifications\Api\Dtos\NotifyData;
 use Modules\Notifications\Api\NotificationFacadeInterface;
-use Modules\Notifications\Infrastructure\Drivers\DriverInterface;
+use Modules\Notifications\Application\Contracts\DriverInterface;
 
 final readonly class NotificationFacade implements NotificationFacadeInterface
 {
