@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Invoices\Http;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use Modules\Invoices\Domain\Enums\StatusEnum;
 use Modules\Invoices\Infrastructure\Persistence\Models\InvoiceEloquentModel;
@@ -28,7 +29,7 @@ final class InvoiceControllerTest extends TestCase
             'invoice_id' => $invoiceModel->id,
             'name' => 'Product A',
             'quantity' => 2,
-            'price' => Money::of(1000, 'PLN'),
+            'price' => Money::of(1000, CurrencyEnum::Pln->value),
         ]);
 
         // when
@@ -195,7 +196,7 @@ final class InvoiceControllerTest extends TestCase
             'invoice_id' => $invoiceModel->id,
             'name' => 'Product A',
             'quantity' => 2,
-            'price' => Money::of(1000, 'PLN'),
+            'price' => Money::of(1000, CurrencyEnum::Pln->value),
         ]);
 
         // mock

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Invoices\Domain\Entities;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use Modules\Invoices\Domain\Entities\Invoice;
 use Modules\Invoices\Domain\Entities\InvoiceProductLine;
@@ -38,7 +39,7 @@ final class InvoiceTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         );
 
         $invoice->addProductLine($productLine);
@@ -59,19 +60,19 @@ final class InvoiceTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
         $invoice->addProductLine(new InvoiceProductLine(
             id: Uuid::uuid7(),
             name: 'Product B',
             quantity: 3,
-            unitPrice: Money::of(500, 'PLN'),
+            unitPrice: Money::of(500, CurrencyEnum::Pln->value),
         ));
 
         $total = $invoice->calculateTotalPrice();
 
-        $this->assertTrue($total->isEqualTo(Money::of(3500, 'PLN')));
+        $this->assertTrue($total->isEqualTo(Money::of(3500, CurrencyEnum::Pln->value)));
     }
 
     public function testMarkAsSendingSucceeds(): void
@@ -86,7 +87,7 @@ final class InvoiceTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
         $invoice->markAsSending();
@@ -135,7 +136,7 @@ final class InvoiceTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
         $invoice->markAsSending();

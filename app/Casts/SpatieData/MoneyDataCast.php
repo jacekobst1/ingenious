@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Casts\SpatieData;
 
+use App\Enums\CurrencyEnum;
 use Brick\Math\Exception\NumberFormatException;
 use Brick\Math\Exception\RoundingNecessaryException;
 use Brick\Math\RoundingMode;
@@ -37,6 +38,6 @@ class MoneyDataCast implements Cast
      */
     private function getCurrency(): string
     {
-        return 'PLN';
+        return CurrencyEnum::Pln->value;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Invoices\Application\Services;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use Exception;
 use Modules\Invoices\Application\Contracts\InvoiceRepositoryInterface;
@@ -261,7 +262,7 @@ final class InvoiceSenderTest extends TestCase
                     id: Uuid::uuid7(),
                     name: 'Product A',
                     quantity: 2,
-                    unitPrice: Money::of(1000, 'PLN'),
+                    unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
                 ),
             ],
         );

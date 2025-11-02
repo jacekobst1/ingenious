@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Casts\Model;
 
+use App\Enums\CurrencyEnum;
 use Brick\Math\Exception\MathException;
 use Brick\Math\Exception\NumberFormatException;
 use Brick\Math\Exception\RoundingNecessaryException;
@@ -62,6 +63,6 @@ class MoneyModelCast implements CastsAttributes
      */
     private function getCurrency(): string
     {
-        return 'PLN';
+        return CurrencyEnum::Pln->value;
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Invoices\Domain\Entities;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use InvalidArgumentException;
 use Modules\Invoices\Domain\Entities\InvoiceProductLine;
@@ -15,7 +16,7 @@ final class InvoiceProductLineTest extends TestCase
     public function testCreatesProductLineSuccessfully(): void
     {
         $id = Uuid::uuid7();
-        $unitPrice = Money::of(1000, 'PLN');
+        $unitPrice = Money::of(1000, CurrencyEnum::Pln->value);
 
         $productLine = new InvoiceProductLine(
             id: $id,
@@ -39,7 +40,7 @@ final class InvoiceProductLineTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 0,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         );
     }
 
@@ -52,7 +53,7 @@ final class InvoiceProductLineTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: -1,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         );
     }
 
@@ -65,7 +66,7 @@ final class InvoiceProductLineTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
-            unitPrice: Money::zero('PLN'),
+            unitPrice: Money::zero(CurrencyEnum::Pln->value),
         );
     }
 
@@ -78,7 +79,7 @@ final class InvoiceProductLineTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
-            unitPrice: Money::of(-100, 'PLN'),
+            unitPrice: Money::of(-100, CurrencyEnum::Pln->value),
         );
     }
 
@@ -88,11 +89,11 @@ final class InvoiceProductLineTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 5,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         );
 
         $total = $productLine->calculateTotalPrice();
 
-        $this->assertTrue($total->isEqualTo(Money::of(5000, 'PLN')));
+        $this->assertTrue($total->isEqualTo(Money::of(5000, CurrencyEnum::Pln->value)));
     }
 }

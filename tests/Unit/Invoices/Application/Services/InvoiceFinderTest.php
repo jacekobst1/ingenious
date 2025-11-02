@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Invoices\Application\Services;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use Modules\Invoices\Application\Contracts\InvoiceRepositoryInterface;
 use Modules\Invoices\Application\Services\InvoiceFinder;
@@ -42,7 +43,7 @@ final class InvoiceFinderTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
         $this->repository->expects($this->once())
@@ -58,7 +59,7 @@ final class InvoiceFinderTest extends TestCase
         $this->assertCount(1, $result->productLines);
         $this->assertEquals('Product A', $result->productLines[0]->name);
         $this->assertEquals(2, $result->productLines[0]->quantity);
-        $this->assertTrue($result->productLines[0]->unitPrice->isEqualTo(Money::of(1000, 'PLN')));
+        $this->assertTrue($result->productLines[0]->unitPrice->isEqualTo(Money::of(1000, CurrencyEnum::Pln->value)));
     }
 
     public function testThrowsExceptionWhenInvoiceNotFound(): void

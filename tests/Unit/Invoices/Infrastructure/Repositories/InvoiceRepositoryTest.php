@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Invoices\Infrastructure\Repositories;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
@@ -50,14 +51,14 @@ final class InvoiceRepositoryTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
-            unitPrice: Money::ofMinor(1000, 'PLN'),
+            unitPrice: Money::ofMinor(1000, CurrencyEnum::Pln->value),
         ));
 
         $invoice->addProductLine(new InvoiceProductLine(
             id: Uuid::uuid7(),
             name: 'Product B',
             quantity: 3,
-            unitPrice: Money::ofMinor(500, 'PLN'),
+            unitPrice: Money::ofMinor(500, CurrencyEnum::Pln->value),
         ));
 
         $this->repository->createWithProductLines($invoice);
@@ -73,11 +74,11 @@ final class InvoiceRepositoryTest extends TestCase
 
         $this->assertEquals('Product A', $found->productLines[0]->name);
         $this->assertEquals(2, $found->productLines[0]->quantity);
-        $this->assertTrue($found->productLines[0]->price->isEqualTo(Money::ofMinor(1000, 'PLN')));
+        $this->assertTrue($found->productLines[0]->price->isEqualTo(Money::ofMinor(1000, CurrencyEnum::Pln->value)));
 
         $this->assertEquals('Product B', $found->productLines[1]->name);
         $this->assertEquals(3, $found->productLines[1]->quantity);
-        $this->assertTrue($found->productLines[1]->price->isEqualTo(Money::ofMinor(500, 'PLN')));
+        $this->assertTrue($found->productLines[1]->price->isEqualTo(Money::ofMinor(500, CurrencyEnum::Pln->value)));
     }
 
     /**
@@ -103,7 +104,7 @@ final class InvoiceRepositoryTest extends TestCase
             id: $duplicatedUuid,
             name: 'Product 1',
             quantity: 1,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
         // given
@@ -119,7 +120,7 @@ final class InvoiceRepositoryTest extends TestCase
             id: $duplicatedUuid,
             name: 'Product 2',
             quantity: 1,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
         // when

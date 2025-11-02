@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\Invoices\Domain\Entities;
 
+use App\Enums\CurrencyEnum;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Modules\Invoices\Domain\Enums\StatusEnum;
@@ -28,7 +29,7 @@ final class Invoice
      */
     public function calculateTotalPrice(): Money
     {
-        $total = Money::zero('PLN');
+        $total = Money::zero(CurrencyEnum::Pln->value);
 
         foreach ($this->productLines as $line) {
             $total = $total->plus($line->calculateTotalPrice(), RoundingMode::HALF_EVEN);

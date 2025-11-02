@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Invoices\Application\Listeners;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use Modules\Invoices\Application\Contracts\InvoiceRepositoryInterface;
 use Modules\Invoices\Application\Listeners\MarkInvoiceAsSentToClientListener;
@@ -44,7 +45,7 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
             id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
-            unitPrice: Money::of(1000, 'PLN'),
+            unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
         // given

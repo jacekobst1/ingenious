@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Invoices\Application\Services;
 
+use App\Enums\CurrencyEnum;
 use Brick\Money\Money;
 use Modules\Invoices\Application\Dtos\Requests\CreateInvoiceRequest;
 use Modules\Invoices\Application\Dtos\Requests\CreateInvoiceProductLineRequest;
@@ -84,7 +85,7 @@ final class InvoiceCreatorTest extends TestCase
                     && count($invoice->productLines) === 1
                     && $invoice->productLines[0]->name === 'Product A'
                     && $invoice->productLines[0]->quantity === 2
-                    && $invoice->productLines[0]->unitPrice->isEqualTo(Money::of(1000, 'PLN'));
+                    && $invoice->productLines[0]->unitPrice->isEqualTo(Money::of(1000, CurrencyEnum::Pln->value));
             }));
 
         // given
@@ -95,7 +96,7 @@ final class InvoiceCreatorTest extends TestCase
                 new CreateInvoiceProductLineRequest(
                     name: 'Product A',
                     quantity: 2,
-                    unitPrice: Money::of(1000, 'PLN'),
+                    unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
                 ),
             ],
         );
@@ -133,8 +134,8 @@ final class InvoiceCreatorTest extends TestCase
             customerName: 'Test User',
             customerEmail: 'test@example.com',
             productLines: [
-                new CreateInvoiceProductLineRequest(name: 'Product A', quantity: 2, unitPrice: Money::of(1000, 'PLN')),
-                new CreateInvoiceProductLineRequest(name: 'Product B', quantity: 3, unitPrice: Money::of(500, 'PLN')),
+                new CreateInvoiceProductLineRequest(name: 'Product A', quantity: 2, unitPrice: Money::of(1000, CurrencyEnum::Pln->value)),
+                new CreateInvoiceProductLineRequest(name: 'Product B', quantity: 3, unitPrice: Money::of(500, CurrencyEnum::Pln->value)),
             ],
         );
 
