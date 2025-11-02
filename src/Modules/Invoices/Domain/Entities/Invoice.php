@@ -11,7 +11,7 @@ use Modules\Invoices\Domain\Exceptions\MarkInvoiceAsSentException;
 use Modules\Invoices\Domain\Exceptions\SendInvoiceException;
 use Ramsey\Uuid\UuidInterface;
 
-/** @param list<InvoiceProductLine> $productLines */
+/** @property list<InvoiceProductLine> $productLines */
 final class Invoice
 {
     public function __construct(
@@ -44,41 +44,31 @@ final class Invoice
 
     /*
      * -----------------------------------------------------------------------------------------------------------------
-     * VALIDATIONS
-     */
-    public function canBeSent(): bool
-    {
-        return $this->status === StatusEnum::Draft && $this->hasProductLines();
-    }
-
-    public function hasProductLines(): bool
-    {
-        return !empty($this->productLines);
-    }
-
-    /*
-     * -----------------------------------------------------------------------------------------------------------------
      * ACTIONS
      */
-    public function markAsSending(): void
+    public function markAsSending(): true
     {
         if ($this->status !== StatusEnum::Draft) {
             throw SendInvoiceException::mustBeDraft($this->id, $this->status);
         }
 
-        if (!$this->hasProductLines()) {
+        if (empty($this->productLines)) {
             throw SendInvoiceException::mustHaveProductLines($this->id);
         }
 
         $this->status = StatusEnum::Sending;
+
+        return true;
     }
 
-    public function markAsSentToClient(): void
+    public function markAsSentToClient(): true
     {
         if ($this->status !== StatusEnum::Sending) {
             throw MarkInvoiceAsSentException::cannotMarkAsSentToClient($this->id, $this->status);
         }
 
         $this->status = StatusEnum::SentToClient;
+
+        return true;
     }
 }
