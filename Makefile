@@ -24,6 +24,9 @@ ih:
 	${sail} artisan ide-helper:meta
 	${sail} artisan ide-helper:models -M
 
+deptrac-check:
+	${sail} run ./vendor/bin/deptrac analyse --config-file=deptrac.yaml
+
 # Handle additional arguments passed to make
 %:
 	@:

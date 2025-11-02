@@ -1,0 +1,95 @@
+deptrac:
+  paths:
+    - ./src/Modules
+    - ./app
+  exclude_files:
+    - '#.*test.*#'
+
+  layers:
+    # Shared Kernel Layers
+    - name: SharedDomain
+      collectors:
+        - type: directory
+          value: app/Enums/.*
+        - type: directory
+          value: app/Exceptions/.*
+
+    - name: SharedInfrastructure
+      collectors:
+        - type: directory
+          value: app/Casts/.*
+
+    # Framework layer
+    - name: Framework
+      collectors:
+        - type: directory
+          value: app/Http/.*
+        - type: directory
+          value: app/Providers/.*
+
+    # Generic DDD Layers - automatically apply to all modules
+    - name: Domain
+      collectors:
+        - type: directory
+          value: src/Modules/.*/Domain/.*
+
+    - name: Api
+      collectors:
+        - type: directory
+          value: src/Modules/.*/Api/.*
+
+    - name: Application
+      collectors:
+        - type: directory
+          value: src/Modules/.*/Application/.*
+
+    - name: Infrastructure
+      collectors:
+        - type: directory
+          value: src/Modules/.*/Infrastructure/.*
+
+    - name: Presentation
+      collectors:
+        - type: directory
+          value: src/Modules/.*/Presentation/.*
+
+  ruleset:
+    # Pure shared abstractions
+    SharedDomain: [ ]
+
+    # Technical utilities can use shared domain
+    SharedInfrastructure:
+      - SharedDomain
+
+    # Framework glue (isolated - modules can't use)
+    Framework:
+      - SharedDomain
+      - SharedInfrastructure
+
+    # Domain is the core - can only use stable shared abstractions
+    Domain:
+      - SharedDomain
+
+    # Api exposes interfaces/events/DTOs - can depend on Domain + shared abstractions
+    Api:
+      - Domain
+      - SharedDomain
+
+    # Application orchestrates domain logic - can use Domain + Api of different module + shared abstractions
+    Application:
+      - Domain
+      - Api
+      - SharedDomain
+
+    # Infrastructure implements technical concerns - can use Domain, Application + Api of different module + shared utilities
+    Infrastructure:
+      - Domain
+      - Application
+      - Api
+      - SharedDomain
+      - SharedInfrastructure
+
+    # Presentation handles HTTP/CLI - can use Application + shared abstractions
+    Presentation:
+      - Application
+      - SharedDomain

@@ -47,6 +47,9 @@
                 "action": "make phpstan-check"
             },
             {
+                "action": "make deptrac-check"
+            },
+            {
                 "action": "make test"
             }
         ]
@@ -59,6 +62,9 @@
             },
             {
                 "action": "make phpstan-check {$STAGED_FILES|replace:_ide_helper_models.php|with:}"
+            },
+            {
+                "action": "make deptrac-check"
             },
             {
                 "action": "\\CaptainHook\\App\\Hook\\PHP\\Action\\Linting"
