@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Tests\Feature\Invoices\Http;
 
 use Brick\Money\Money;
+use Modules\Invoices\Domain\Enums\StatusEnum;
 use Modules\Invoices\Infrastructure\Persistence\Models\InvoiceEloquentModel;
 use Modules\Invoices\Infrastructure\Persistence\Models\ProductLineEloquentModel;
+use Modules\Notifications\Api\NotificationFacadeInterface;
 use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
@@ -177,5 +179,43 @@ final class InvoiceControllerTest extends TestCase
         // then
         $response->assertUnprocessable();
         $response->assertJsonValidationErrors(['productLines.0.unitPrice']);
+    }
+
+    public function testSendInvoiceSuccessfully(): void
+    {
+        // given
+        $invoiceModel = InvoiceEloquentModel::create([
+            'id' => Uuid::uuid7(),
+            'customer_name' => 'Test User',
+            'customer_email' => 'test@example.com',
+            'status' => 'draft',
+        ]);
+        ProductLineEloquentModel::create([
+            'id' => Uuid::uuid7(),
+            'invoice_id' => $invoiceModel->id,
+            'name' => 'Product A',
+            'quantity' => 2,
+            'price' => Money::of(1000, 'PLN'),
+        ]);
+
+        // mock
+        $this->mock(NotificationFacadeInterface::class, static function ($mock): void {
+            $mock->shouldReceive('notify')->once()->andReturn(true);
+        });
+
+        // when
+        $response = $this->postJson(route('invoices.send', ['id' => $invoiceModel->id]), [
+            'title' => 'Your Invoice',
+            'description' => 'Please review the invoice',
+        ]);
+
+        // then
+        $response->assertOk();
+        $response->assertJson(['message' => 'success']);
+
+        $this->assertDatabaseHas('invoices', [
+            'id' => $invoiceModel->id,
+            'status' => StatusEnum::Sending->value,
+        ]);
     }
 }

@@ -14,9 +14,9 @@ final readonly class NotificationFacade implements NotificationFacadeInterface
         private DriverInterface $driver,
     ) {}
 
-    public function notify(NotifyData $data): void
+    public function notify(NotifyData $data): bool
     {
-        $this->driver->send(
+        return $this->driver->send(
             toEmail: $data->toEmail,
             subject: $data->subject,
             message: $data->message,

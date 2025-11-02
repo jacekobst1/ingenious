@@ -33,7 +33,7 @@ final readonly class InvoiceCreator
             ));
         }
 
-        $this->repository->save($invoice);
+        $this->repository->createWithProductLines($invoice);
 
         return InvoiceResponse::fromEntity($invoice);
     }

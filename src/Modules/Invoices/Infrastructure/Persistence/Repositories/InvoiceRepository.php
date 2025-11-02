@@ -79,4 +79,13 @@ final readonly class InvoiceRepository implements InvoiceRepositoryInterface
             }
         });
     }
+
+    public function update(Invoice $invoice): void
+    {
+        InvoiceEloquentModel::findOrFail($invoice->id)->update([
+            'customer_name' => $invoice->customerName,
+            'customer_email' => $invoice->customerEmail,
+            'status' => $invoice->status,
+        ]);
+    }
 }
