@@ -28,7 +28,7 @@ final class Invoice
      * GETTERS
      */
     /**
-     * @return array<InvoiceProductLine>
+     * @return list<InvoiceProductLine>
      */
     public function productLines(): array
     {
