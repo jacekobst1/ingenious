@@ -7,7 +7,6 @@ namespace Tests\Unit\Invoices\Infrastructure\Repositories;
 use Brick\Money\Money;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\App;
 use Modules\Invoices\Domain\Entities\Invoice;
 use Modules\Invoices\Domain\Entities\InvoiceProductLine;
@@ -20,8 +19,6 @@ use Ramsey\Uuid\UuidInterface;
 
 final class InvoiceRepositoryTest extends TestCase
 {
-    use RefreshDatabase;
-
     private InvoiceRepository $repository;
 
     /**

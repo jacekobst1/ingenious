@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Invoices\Http;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 final class InvoiceControllerTest extends TestCase
 {
-    use RefreshDatabase;
 
     public function testCreateInvoiceWithProductLines(): void
     {
