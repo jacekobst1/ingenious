@@ -8,7 +8,7 @@ use Brick\Money\Money;
 use Modules\Invoices\Domain\Entities\Invoice;
 use Modules\Invoices\Domain\Entities\InvoiceProductLine;
 use Modules\Invoices\Domain\Enums\StatusEnum;
-use Modules\Invoices\Domain\Exceptions\MarkInvoiceAsSenException;
+use Modules\Invoices\Domain\Exceptions\MarkInvoiceAsSentException;
 use Modules\Invoices\Domain\Exceptions\SendInvoiceException;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -183,7 +183,7 @@ final class InvoiceTest extends TestCase
             customerEmail: 'john@example.com',
         );
 
-        $this->expectException(MarkInvoiceAsSenException::class);
+        $this->expectException(MarkInvoiceAsSentException::class);
         $this->expectExceptionMessage('must be sending');
 
         $invoice->markAsSentToClient();

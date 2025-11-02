@@ -7,7 +7,7 @@ namespace Modules\Invoices\Domain\Entities;
 use Brick\Math\RoundingMode;
 use Brick\Money\Money;
 use Modules\Invoices\Domain\Enums\StatusEnum;
-use Modules\Invoices\Domain\Exceptions\MarkInvoiceAsSenException;
+use Modules\Invoices\Domain\Exceptions\MarkInvoiceAsSentException;
 use Modules\Invoices\Domain\Exceptions\SendInvoiceException;
 use Ramsey\Uuid\UuidInterface;
 
@@ -76,7 +76,7 @@ final class Invoice
     public function markAsSentToClient(): void
     {
         if ($this->status !== StatusEnum::Sending) {
-            throw MarkInvoiceAsSenException::cannotMarkAsSentToClient($this->id, $this->status);
+            throw MarkInvoiceAsSentException::cannotMarkAsSentToClient($this->id, $this->status);
         }
 
         $this->status = StatusEnum::SentToClient;

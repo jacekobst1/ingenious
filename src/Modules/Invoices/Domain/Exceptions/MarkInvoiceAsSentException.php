@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Modules\Invoices\Domain\Exceptions;
 
-use DomainException;
+use App\Exceptions\MyDomainException;
 use Modules\Invoices\Domain\Enums\StatusEnum;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\HttpFoundation\Response;
 
-final class MarkInvoiceAsSenException extends DomainException
+final class MarkInvoiceAsSentException extends MyDomainException
 {
     public static function cannotMarkAsSentToClient(
         UuidInterface $invoiceId,
@@ -17,5 +18,10 @@ final class MarkInvoiceAsSenException extends DomainException
         return new self(
             "Invoice $invoiceId cannot be marked as sent to client. Current status is $currentStatus->value, but must be sending."
         );
+    }
+
+    public function getStatusCode(): int
+    {
+        return Response::HTTP_CONFLICT;
     }
 }

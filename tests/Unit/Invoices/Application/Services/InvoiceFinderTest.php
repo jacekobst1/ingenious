@@ -9,7 +9,7 @@ use Modules\Invoices\Application\Contracts\InvoiceRepositoryInterface;
 use Modules\Invoices\Application\Services\InvoiceFinder;
 use Modules\Invoices\Domain\Entities\Invoice;
 use Modules\Invoices\Domain\Entities\InvoiceProductLine;
-use Modules\Invoices\Domain\Exceptions\InvoiceNotFoundException;
+use Modules\Invoices\Domain\Exceptions\EntityNotFoundException;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
@@ -70,7 +70,7 @@ final class InvoiceFinderTest extends TestCase
             ->with($uuid)
             ->willReturn(null);
 
-        $this->expectException(InvoiceNotFoundException::class);
+        $this->expectException(EntityNotFoundException::class);
         $this->expectExceptionMessage("Invoice with ID '{$uuid->toString()}' not found.");
 
         $this->service->find($uuid);

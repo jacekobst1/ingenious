@@ -77,7 +77,7 @@ final class InvoiceControllerTest extends TestCase
         // then
         $response->assertBadRequest();
         $response->assertJsonStructure(['message']);
-        $this->assertEquals('Invalid invoice ID format.', $response->json('message'));
+        $this->assertEquals('Invalid UUID string: invalid-uuid-format', $response->json('message'));
     }
 
     public function testCreateInvoiceWithProductLines(): void
