@@ -13,6 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 final class InvoiceEloquentModel extends Model
 {
+    public const string RELATION_PRODUCT_LINES = 'productLines';
+
     protected $table = 'invoices';
 
     protected $guarded = [];

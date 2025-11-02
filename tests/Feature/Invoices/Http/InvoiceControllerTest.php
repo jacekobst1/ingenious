@@ -4,10 +4,81 @@ declare(strict_types=1);
 
 namespace Tests\Feature\Invoices\Http;
 
+use Brick\Money\Money;
+use Modules\Invoices\Infrastructure\Persistence\Models\InvoiceEloquentModel;
+use Modules\Invoices\Infrastructure\Persistence\Models\ProductLineEloquentModel;
+use Ramsey\Uuid\Uuid;
 use Tests\TestCase;
 
 final class InvoiceControllerTest extends TestCase
 {
+    public function testShowInvoice(): void
+    {
+        // given
+        $invoiceModel = InvoiceEloquentModel::create([
+            'id' => Uuid::uuid7(),
+            'customer_name' => 'Test User',
+            'customer_email' => 'test@example.com',
+            'status' => 'draft',
+        ]);
+        ProductLineEloquentModel::create([
+            'id' => Uuid::uuid7(),
+            'invoice_id' => $invoiceModel->id,
+            'name' => 'Product A',
+            'quantity' => 2,
+            'price' => Money::of(1000, 'PLN'),
+        ]);
+
+        // when
+        $response = $this->getJson(route('invoices.show', ['id' => $invoiceModel->id]));
+
+        // then
+        $response->assertOk();
+        $response->assertJsonStructure([
+            'id',
+            'customerName',
+            'customerEmail',
+            'status',
+            'productLines' => [[
+                'id',
+                'name',
+                'quantity',
+                'unitPrice',
+                'totalPrice',
+            ]],
+            'totalPrice',
+        ]);
+
+        $json = static fn(string $key) => $response->json($key);
+
+        $this->assertEquals($invoiceModel->id, $json('id'));
+        $this->assertEquals('Test User', $json('customerName'));
+        $this->assertEquals('test@example.com', $json('customerEmail'));
+        $this->assertEquals('draft', $json('status'));
+        $this->assertCount(1, $json('productLines'));
+        $this->assertEquals('Product A', $json('productLines.0.name'));
+    }
+
+    public function testShowInvoiceReturnsNotFoundWhenInvoiceDoesNotExist(): void
+    {
+        // when
+        $response = $this->getJson(route('invoices.show', ['id' => '550e8400-e29b-41d4-a716-446655440000']));
+
+        // then
+        $response->assertNotFound();
+        $response->assertJsonStructure(['message']);
+    }
+
+    public function testShowInvoiceReturnsNotFoundForInvalidUuid(): void
+    {
+        // when
+        $response = $this->getJson(route('invoices.show', ['id' => 'invalid-uuid-format']));
+
+        // then
+        $response->assertBadRequest();
+        $response->assertJsonStructure(['message']);
+        $this->assertEquals('Invalid invoice ID format.', $response->json('message'));
+    }
 
     public function testCreateInvoiceWithProductLines(): void
     {
