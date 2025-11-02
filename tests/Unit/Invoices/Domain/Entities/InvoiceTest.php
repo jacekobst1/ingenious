@@ -47,7 +47,7 @@ final class InvoiceTest extends TestCase
         $this->assertSame($productLine, $invoice->productLines[0]);
     }
 
-    public function testCalculatesTotalForMultipleProductLines(): void
+    public function testCalculateTotalPrice(): void
     {
         $invoice = new Invoice(
             id: Uuid::uuid7(),
@@ -69,7 +69,7 @@ final class InvoiceTest extends TestCase
             unitPrice: Money::of(500, 'PLN'),
         ));
 
-        $total = $invoice->calculateTotal();
+        $total = $invoice->calculateTotalPrice();
 
         $this->assertTrue($total->isEqualTo(Money::of(3500, 'PLN')));
     }

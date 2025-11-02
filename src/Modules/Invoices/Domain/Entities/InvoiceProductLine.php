@@ -26,7 +26,7 @@ final readonly class InvoiceProductLine
         }
     }
 
-    public function calculateTotal(): Money
+    public function calculateTotalPrice(): Money
     {
         return $this->unitPrice->multipliedBy($this->quantity, RoundingMode::HALF_EVEN);
     }

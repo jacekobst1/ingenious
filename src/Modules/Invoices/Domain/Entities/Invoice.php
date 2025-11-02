@@ -26,12 +26,12 @@ final class Invoice
      * -----------------------------------------------------------------------------------------------------------------
      * GETTERS & SETTERS
      */
-    public function calculateTotal(): Money
+    public function calculateTotalPrice(): Money
     {
         $total = Money::zero('PLN');
 
         foreach ($this->productLines as $line) {
-            $total = $total->plus($line->calculateTotal(), RoundingMode::HALF_EVEN);
+            $total = $total->plus($line->calculateTotalPrice(), RoundingMode::HALF_EVEN);
         }
 
         return $total;

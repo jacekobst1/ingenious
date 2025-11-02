@@ -82,7 +82,7 @@ final class InvoiceProductLineTest extends TestCase
         );
     }
 
-    public function testCalculatesTotalCorrectly(): void
+    public function testCalculateTotalPrice(): void
     {
         $productLine = new InvoiceProductLine(
             id: Uuid::uuid7(),
@@ -91,7 +91,7 @@ final class InvoiceProductLineTest extends TestCase
             unitPrice: Money::of(1000, 'PLN'),
         );
 
-        $total = $productLine->calculateTotal();
+        $total = $productLine->calculateTotalPrice();
 
         $this->assertTrue($total->isEqualTo(Money::of(5000, 'PLN')));
     }

@@ -36,7 +36,7 @@ final readonly class InvoiceResponse
             customerEmail: $invoice->customerEmail,
             status: $invoice->status,
             productLines: $productLines,
-            totalPrice: $invoice->calculateTotal(),
+            totalPrice: $invoice->calculateTotalPrice(),
         );
     }
 }

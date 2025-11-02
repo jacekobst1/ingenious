@@ -25,7 +25,7 @@ final readonly class InvoiceProductLineResponse
             name: $line->name,
             quantity: $line->quantity,
             unitPrice: $line->unitPrice,
-            totalPrice: $line->calculateTotal(),
+            totalPrice: $line->calculateTotalPrice(),
         );
     }
 }
