@@ -27,9 +27,7 @@ final readonly class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function findById(UuidInterface $id): ?Invoice
     {
-        $model = InvoiceEloquentModel::query()
-            ->with(InvoiceEloquentModel::RELATION_PRODUCT_LINES)
-            ->find($id->toString());
+        $model = InvoiceEloquentModel::find($id->toString());
 
         if ($model === null) {
             return null;
