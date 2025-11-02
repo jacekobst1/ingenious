@@ -43,7 +43,7 @@ final class InvoiceCreatorTest extends TestCase
                     && $invoice->customerName === 'John Doe'
                     && $invoice->customerEmail === 'john@example.com'
                     && $invoice->status === StatusEnum::Draft
-                    && count($invoice->productLines()) === 0;
+                    && count($invoice->productLines) === 0;
             }));
 
         // given
@@ -81,10 +81,10 @@ final class InvoiceCreatorTest extends TestCase
                     && $invoice->customerName === 'Jane Smith'
                     && $invoice->customerEmail === 'jane@example.com'
                     && $invoice->status === StatusEnum::Draft
-                    && count($invoice->productLines()) === 1
-                    && $invoice->productLines()[0]->name === 'Product A'
-                    && $invoice->productLines()[0]->quantity === 2
-                    && $invoice->productLines()[0]->unitPrice->isEqualTo(Money::of(1000, 'PLN'));
+                    && count($invoice->productLines) === 1
+                    && $invoice->productLines[0]->name === 'Product A'
+                    && $invoice->productLines[0]->quantity === 2
+                    && $invoice->productLines[0]->unitPrice->isEqualTo(Money::of(1000, 'PLN'));
             }));
 
         // given

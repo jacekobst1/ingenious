@@ -27,7 +27,7 @@ final readonly class InvoiceResponse
     {
         $productLines = array_map(
             static fn($line) => InvoiceProductLineResponse::fromEntity($line),
-            $invoice->productLines()
+            $invoice->productLines,
         );
 
         return new self(

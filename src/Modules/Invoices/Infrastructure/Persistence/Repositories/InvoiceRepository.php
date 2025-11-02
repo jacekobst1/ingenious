@@ -36,7 +36,7 @@ final readonly class InvoiceRepository implements InvoiceRepositoryInterface
                 'status' => $invoice->status,
             ]);
 
-            foreach ($invoice->productLines() as $line) {
+            foreach ($invoice->productLines as $line) {
                 $model->productLines()->create([
                     'id' => $line->id,
                     'invoice_id' => $invoice->id,

@@ -11,30 +11,21 @@ use Modules\Invoices\Domain\Exceptions\MarkInvoiceAsSenException;
 use Modules\Invoices\Domain\Exceptions\SendInvoiceException;
 use Ramsey\Uuid\UuidInterface;
 
+/** @param list<InvoiceProductLine> $productLines */
 final class Invoice
 {
-    /** @var list<InvoiceProductLine> */
-    private array $productLines = [];
-
     public function __construct(
         public readonly UuidInterface $id,
         public readonly string $customerName,
         public readonly string $customerEmail,
         private(set) StatusEnum $status = StatusEnum::Draft,
+        private(set) array $productLines = [],
     ) {}
 
     /*
      * -----------------------------------------------------------------------------------------------------------------
-     * GETTERS
+     * GETTERS & SETTERS
      */
-    /**
-     * @return list<InvoiceProductLine>
-     */
-    public function productLines(): array
-    {
-        return $this->productLines;
-    }
-
     public function calculateTotal(): Money
     {
         $total = Money::zero('PLN');
@@ -46,10 +37,6 @@ final class Invoice
         return $total;
     }
 
-    /*
-     * -----------------------------------------------------------------------------------------------------------------
-     * SETTERS
-     */
     public function addProductLine(InvoiceProductLine $line): void
     {
         $this->productLines[] = $line;

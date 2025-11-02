@@ -43,8 +43,8 @@ final class InvoiceTest extends TestCase
 
         $invoice->addProductLine($productLine);
 
-        $this->assertCount(1, $invoice->productLines());
-        $this->assertSame($productLine, $invoice->productLines()[0]);
+        $this->assertCount(1, $invoice->productLines);
+        $this->assertSame($productLine, $invoice->productLines[0]);
     }
 
     public function testCannotBeSentWhenNoProductLines(): void
