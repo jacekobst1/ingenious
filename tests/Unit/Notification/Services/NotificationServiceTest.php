@@ -8,13 +8,14 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Testing\WithFaker;
 use Modules\Notifications\Api\Events\ResourceDeliveredEvent;
 use Modules\Notifications\Application\Services\NotificationService;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 final class NotificationServiceTest extends TestCase
 {
     use WithFaker;
 
-    private Dispatcher $dispatcher;
+    private Dispatcher|MockObject $dispatcher;
 
     private NotificationService $notificationService;
 
