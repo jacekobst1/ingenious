@@ -30,7 +30,7 @@ final class InvoiceCreatorTest extends TestCase
     public function testCreateInvoiceWithoutProductLines(): void
     {
         // mock
-        $uuid = Uuid::uuid4();
+        $uuid = Uuid::uuid7();
 
         $this->repository->expects($this->once())
             ->method('nextIdentity')
@@ -67,8 +67,8 @@ final class InvoiceCreatorTest extends TestCase
     public function testCreateInvoiceWithProductLines(): void
     {
         // mock
-        $invoiceId = Uuid::uuid4();
-        $lineId = Uuid::uuid4();
+        $invoiceId = Uuid::uuid7();
+        $lineId = Uuid::uuid7();
 
         $this->repository->expects($this->exactly(2))
             ->method('nextIdentity')
@@ -117,9 +117,9 @@ final class InvoiceCreatorTest extends TestCase
     public function testCalculatesTotalForProductLines(): void
     {
         // mock
-        $invoiceId = Uuid::uuid4();
-        $lineId1 = Uuid::uuid4();
-        $lineId2 = Uuid::uuid4();
+        $invoiceId = Uuid::uuid7();
+        $lineId1 = Uuid::uuid7();
+        $lineId2 = Uuid::uuid7();
 
         $this->repository->expects($this->exactly(3))
             ->method('nextIdentity')

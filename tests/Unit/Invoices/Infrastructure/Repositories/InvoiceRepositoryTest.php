@@ -41,20 +41,20 @@ final class InvoiceRepositoryTest extends TestCase
     public function testSaveAndFindInvoiceWithProductLines(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'Jane Smith',
             customerEmail: 'jane@example.com',
         );
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
             unitPrice: Money::ofMinor(1000, 'PLN'),
         ));
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product B',
             quantity: 3,
             unitPrice: Money::ofMinor(500, 'PLN'),

@@ -29,7 +29,7 @@ final class InvoiceFinderTest extends TestCase
 
     public function testFindInvoiceWithProductLines(): void
     {
-        $uuid = Uuid::uuid4();
+        $uuid = Uuid::uuid7();
 
         // mock
         $invoice = new Invoice(
@@ -39,7 +39,7 @@ final class InvoiceFinderTest extends TestCase
         );
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
             unitPrice: Money::of(1000, 'PLN'),
@@ -63,7 +63,7 @@ final class InvoiceFinderTest extends TestCase
 
     public function testThrowsExceptionWhenInvoiceNotFound(): void
     {
-        $uuid = Uuid::uuid4();
+        $uuid = Uuid::uuid7();
 
         $this->repository->expects($this->once())
             ->method('findById')

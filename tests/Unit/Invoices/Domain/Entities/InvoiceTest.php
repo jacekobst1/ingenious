@@ -18,7 +18,7 @@ final class InvoiceTest extends TestCase
     public function testInvoiceIsCreatedWithDraftStatus(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
@@ -29,13 +29,13 @@ final class InvoiceTest extends TestCase
     public function testCanAddProductLine(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
 
         $productLine = new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
             unitPrice: Money::of(1000, 'PLN'),
@@ -50,7 +50,7 @@ final class InvoiceTest extends TestCase
     public function testCannotBeSentWhenNoProductLines(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
@@ -62,13 +62,13 @@ final class InvoiceTest extends TestCase
     public function testCanBeSentWhenHasValidProductLines(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
             unitPrice: Money::of(1000, 'PLN'),
@@ -81,20 +81,20 @@ final class InvoiceTest extends TestCase
     public function testCalculatesTotalForMultipleProductLines(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 2,
             unitPrice: Money::of(1000, 'PLN'),
         ));
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product B',
             quantity: 3,
             unitPrice: Money::of(500, 'PLN'),
@@ -108,13 +108,13 @@ final class InvoiceTest extends TestCase
     public function testMarkAsSendingSucceedsWhenCanBeSent(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
             unitPrice: Money::of(1000, 'PLN'),
@@ -128,7 +128,7 @@ final class InvoiceTest extends TestCase
     public function testMarkAsSendingFailsWhenNoProductLines(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
@@ -142,7 +142,7 @@ final class InvoiceTest extends TestCase
     public function testMarkAsSendingFailsWhenNotInDraftStatus(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
             status: StatusEnum::SentToClient,
@@ -157,13 +157,13 @@ final class InvoiceTest extends TestCase
     public function testMarkAsSentToClientSucceedsWhenInSendingStatus(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
 
         $invoice->addProductLine(new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
             unitPrice: Money::of(1000, 'PLN'),
@@ -178,7 +178,7 @@ final class InvoiceTest extends TestCase
     public function testMarkAsSentToClientFailsWhenNotInSendingStatus(): void
     {
         $invoice = new Invoice(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );

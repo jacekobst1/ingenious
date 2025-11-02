@@ -14,7 +14,7 @@ final class InvoiceProductLineTest extends TestCase
 {
     public function testCreatesProductLineSuccessfully(): void
     {
-        $id = Uuid::uuid4();
+        $id = Uuid::uuid7();
         $unitPrice = Money::of(1000, 'PLN');
 
         $productLine = new InvoiceProductLine(
@@ -36,7 +36,7 @@ final class InvoiceProductLineTest extends TestCase
         $this->expectExceptionMessage('Quantity must be a positive integer greater than zero');
 
         new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 0,
             unitPrice: Money::of(1000, 'PLN'),
@@ -49,7 +49,7 @@ final class InvoiceProductLineTest extends TestCase
         $this->expectExceptionMessage('Quantity must be a positive integer greater than zero');
 
         new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: -1,
             unitPrice: Money::of(1000, 'PLN'),
@@ -62,7 +62,7 @@ final class InvoiceProductLineTest extends TestCase
         $this->expectExceptionMessage('Unit price must be a positive amount greater than zero');
 
         new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
             unitPrice: Money::zero('PLN'),
@@ -75,7 +75,7 @@ final class InvoiceProductLineTest extends TestCase
         $this->expectExceptionMessage('Unit price must be a positive amount greater than zero');
 
         new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 1,
             unitPrice: Money::of(-100, 'PLN'),
@@ -85,7 +85,7 @@ final class InvoiceProductLineTest extends TestCase
     public function testCalculatesTotalCorrectly(): void
     {
         $productLine = new InvoiceProductLine(
-            id: Uuid::uuid4(),
+            id: Uuid::uuid7(),
             name: 'Product A',
             quantity: 5,
             unitPrice: Money::of(1000, 'PLN'),
