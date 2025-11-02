@@ -58,7 +58,7 @@ final readonly class InvoiceRepository implements InvoiceRepositoryInterface
     /**
      * @throws Throwable
      */
-    public function save(Invoice $invoice): void
+    public function createWithProductLines(Invoice $invoice): void
     {
         $this->connection->transaction(function () use ($invoice): void {
             $model = InvoiceEloquentModel::create([

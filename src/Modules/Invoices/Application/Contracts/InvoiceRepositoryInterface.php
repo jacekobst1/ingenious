@@ -13,5 +13,5 @@ interface InvoiceRepositoryInterface
 
     public function findById(UuidInterface $id): ?Invoice;
 
-    public function save(Invoice $invoice): void;
+    public function createWithProductLines(Invoice $invoice): void;
 }

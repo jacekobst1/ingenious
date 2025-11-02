@@ -37,7 +37,7 @@ final class InvoiceCreatorTest extends TestCase
             ->willReturn($uuid);
 
         $this->repository->expects($this->once())
-            ->method('save')
+            ->method('createWithProductLines')
             ->with($this->callback(function (Invoice $invoice) use ($uuid) {
                 return $invoice->id === $uuid
                     && $invoice->customerName === 'John Doe'
@@ -75,7 +75,7 @@ final class InvoiceCreatorTest extends TestCase
             ->willReturn($invoiceId, $lineId);
 
         $this->repository->expects($this->once())
-            ->method('save')
+            ->method('createWithProductLines')
             ->with($this->callback(function (Invoice $invoice) use ($invoiceId) {
                 return $invoice->id === $invoiceId
                     && $invoice->customerName === 'Jane Smith'
@@ -126,7 +126,7 @@ final class InvoiceCreatorTest extends TestCase
             ->willReturn($invoiceId, $lineId1, $lineId2);
 
         $this->repository->expects($this->once())
-            ->method('save');
+            ->method('createWithProductLines');
 
         // given
         $data = new CreateInvoiceRequest(

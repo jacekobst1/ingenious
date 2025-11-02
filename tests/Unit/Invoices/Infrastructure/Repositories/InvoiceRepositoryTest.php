@@ -60,7 +60,7 @@ final class InvoiceRepositoryTest extends TestCase
             unitPrice: Money::ofMinor(500, 'PLN'),
         ));
 
-        $this->repository->save($invoice);
+        $this->repository->createWithProductLines($invoice);
 
         $found = InvoiceEloquentModel::find($invoice->id);
 
@@ -107,7 +107,7 @@ final class InvoiceRepositoryTest extends TestCase
         ));
 
         // given
-        $this->repository->save($firstInvoice);
+        $this->repository->createWithProductLines($firstInvoice);
 
         $secondInvoice = new Invoice(
             id: Uuid::uuid7(),
@@ -123,7 +123,7 @@ final class InvoiceRepositoryTest extends TestCase
         ));
 
         // when
-        $this->repository->save($secondInvoice);
+        $this->repository->createWithProductLines($secondInvoice);
 
         // then
         $this->assertDatabaseMissing('invoices', [
