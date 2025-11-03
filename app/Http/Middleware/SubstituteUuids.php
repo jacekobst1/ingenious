@@ -12,13 +12,14 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use ReflectionParameter;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\Response;
 
 final class SubstituteUuids
 {
     /**
      * @throws BadRequestException
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next): Response
     {
         $route = $request->route();
 
@@ -33,7 +34,10 @@ final class SubstituteUuids
             try {
                 $parameterUuidValue = Uuid::fromString($parameterValue);
             } catch (InvalidUuidStringException) {
-                throw new BadRequestException("Invalid UUID string: $parameterValue");
+                return response()->json(
+                    ['message' => "Invalid UUID string: $parameterValue"],
+                    Response::HTTP_BAD_REQUEST,
+                );
             }
 
             $route->setParameter($parameter->getName(), $parameterUuidValue);

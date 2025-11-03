@@ -8,9 +8,6 @@ use App\Http\Middleware\SubstituteUuids;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use Illuminate\Http\Request;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpFoundation\Response;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -24,15 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(SubstituteUuids::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        $exceptions->render(function (MyDomainException $e, Request $request) {
-            return response()->json([
-                'message' => $e->getMessage(),
-            ], $e->getStatusCode());
-        });
-
-        $exceptions->render(function (BadRequestHttpException $e, Request $request) {
-            return response()->json([
-                'message' => $e->getPrevious()?->getMessage() ?? $e->getMessage(),
-            ], Response::HTTP_BAD_REQUEST);
+        $exceptions->render(static function (MyDomainException $e) {
+            return response()->json(
+                ['message' => $e->getMessage()],
+                $e->getStatusCode(),
+            );
         });
     })->create();
