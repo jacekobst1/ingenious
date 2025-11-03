@@ -17,3 +17,12 @@
 - API versioning.
 - API endpoints documentation (with OpenAPI or similar tool).
 - Mechanism for building JSON responses to maintain a consistent structure across the whole codebase.
+
+#### Code quality tools used:
+
+- _larastan/larastan_ - enables static analysis of the code.
+- _laravel/pint_ - enforces common code style.
+- _deptrac/deptrac_ - guards the boundaries between modules.
+- _captainhook/captainhook_ - run code quality checks before every commit and push.
+- _ramsey/conventional-commits_ - enforces commit message convention (
+  see [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)).
