@@ -30,17 +30,17 @@ final class InvoiceCreatorTest extends TestCase
 
     public function testCreateInvoiceWithoutProductLines(): void
     {
-        // mock
-        $uuid = Uuid::uuid7();
+        $invoiceId = Uuid::uuid7();
 
+        // mock
         $this->repository->expects($this->once())
             ->method('nextIdentity')
-            ->willReturn($uuid);
+            ->willReturn($invoiceId);
 
         $this->repository->expects($this->once())
             ->method('createWithProductLines')
-            ->with($this->callback(function (Invoice $invoice) use ($uuid) {
-                return $invoice->id === $uuid
+            ->with($this->callback(function (Invoice $invoice) use ($invoiceId) {
+                return $invoice->id === $invoiceId
                     && $invoice->customerName === 'John Doe'
                     && $invoice->customerEmail === 'john@example.com'
                     && $invoice->status === StatusEnum::Draft
@@ -58,7 +58,7 @@ final class InvoiceCreatorTest extends TestCase
         $result = $this->service->create($data);
 
         // then
-        $this->assertEquals($uuid, $result->id);
+        $this->assertEquals($invoiceId, $result->id);
         $this->assertEquals('John Doe', $result->customerName);
         $this->assertEquals('john@example.com', $result->customerEmail);
         $this->assertEquals(StatusEnum::Draft, $result->status);
@@ -67,10 +67,10 @@ final class InvoiceCreatorTest extends TestCase
 
     public function testCreateInvoiceWithProductLines(): void
     {
-        // mock
         $invoiceId = Uuid::uuid7();
         $lineId = Uuid::uuid7();
 
+        // mock
         $this->repository->expects($this->exactly(2))
             ->method('nextIdentity')
             ->willReturn($invoiceId, $lineId);
@@ -117,11 +117,11 @@ final class InvoiceCreatorTest extends TestCase
 
     public function testCalculatesTotalForProductLines(): void
     {
-        // mock
         $invoiceId = Uuid::uuid7();
         $lineId1 = Uuid::uuid7();
         $lineId2 = Uuid::uuid7();
 
+        // mock
         $this->repository->expects($this->exactly(3))
             ->method('nextIdentity')
             ->willReturn($invoiceId, $lineId1, $lineId2);
@@ -129,7 +129,7 @@ final class InvoiceCreatorTest extends TestCase
         $this->repository->expects($this->once())
             ->method('createWithProductLines');
 
-        // given
+        // when
         $data = new CreateInvoiceRequest(
             customerName: 'Test User',
             customerEmail: 'test@example.com',
@@ -139,7 +139,6 @@ final class InvoiceCreatorTest extends TestCase
             ],
         );
 
-        // when
         $result = $this->service->create($data);
 
         // then

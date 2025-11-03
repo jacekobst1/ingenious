@@ -41,6 +41,7 @@ final class InvoiceRepositoryTest extends TestCase
 
     public function testSaveAndFindInvoiceWithProductLines(): void
     {
+        // when
         $invoice = new Invoice(
             id: Uuid::uuid7(),
             customerName: 'Jane Smith',
@@ -63,6 +64,7 @@ final class InvoiceRepositoryTest extends TestCase
 
         $this->repository->createWithProductLines($invoice);
 
+        // then
         $found = InvoiceEloquentModel::find($invoice->id);
 
         $this->assertNotNull($found);
@@ -94,6 +96,7 @@ final class InvoiceRepositoryTest extends TestCase
 
         $duplicatedUuid = Uuid::uuid7();
 
+        // given
         $firstInvoice = new Invoice(
             id: Uuid::uuid7(),
             customerName: 'First Invoice',
@@ -107,7 +110,6 @@ final class InvoiceRepositoryTest extends TestCase
             unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
-        // given
         $this->repository->createWithProductLines($firstInvoice);
 
         $secondInvoice = new Invoice(

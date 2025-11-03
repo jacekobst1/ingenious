@@ -30,11 +30,11 @@ final class InvoiceFinderTest extends TestCase
 
     public function testFindInvoiceWithProductLines(): void
     {
-        $uuid = Uuid::uuid7();
+        $invoiceId = Uuid::uuid7();
 
         // mock
         $invoice = new Invoice(
-            id: $uuid,
+            id: $invoiceId,
             customerName: 'Jane Smith',
             customerEmail: 'jane@example.com',
         );
@@ -48,14 +48,14 @@ final class InvoiceFinderTest extends TestCase
 
         $this->repository->expects($this->once())
             ->method('findById')
-            ->with($uuid)
+            ->with($invoiceId)
             ->willReturn($invoice);
 
         // when
-        $result = $this->service->find($uuid);
+        $result = $this->service->find($invoiceId);
 
         // then
-        $this->assertEquals($uuid, $result->id);
+        $this->assertEquals($invoiceId, $result->id);
         $this->assertCount(1, $result->productLines);
         $this->assertEquals('Product A', $result->productLines[0]->name);
         $this->assertEquals(2, $result->productLines[0]->quantity);
@@ -64,16 +64,16 @@ final class InvoiceFinderTest extends TestCase
 
     public function testThrowsExceptionWhenInvoiceNotFound(): void
     {
-        $uuid = Uuid::uuid7();
+        $invoiceId = Uuid::uuid7();
+
+        $this->expectException(EntityNotFoundException::class);
+        $this->expectExceptionMessage("Invoice with ID '{$invoiceId->toString()}' not found.");
 
         $this->repository->expects($this->once())
             ->method('findById')
-            ->with($uuid)
+            ->with($invoiceId)
             ->willReturn(null);
 
-        $this->expectException(EntityNotFoundException::class);
-        $this->expectExceptionMessage("Invoice with ID '{$uuid->toString()}' not found.");
-
-        $this->service->find($uuid);
+        $this->service->find($invoiceId);
     }
 }

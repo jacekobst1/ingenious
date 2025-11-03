@@ -64,12 +64,12 @@ final class InvoiceSenderTest extends TestCase
                 return $inv->id === $invoiceId && $inv->status === StatusEnum::Sending;
             }));
 
+        // when
         $request = new SendInvoiceRequest(
             title: 'Custom Title',
             description: 'Custom Description',
         );
 
-        // when
         $this->service->send($invoiceId, $request);
 
         // then - verified through mocks
@@ -96,15 +96,14 @@ final class InvoiceSenderTest extends TestCase
             }))
             ->willReturn(true);
 
-        $this->repository->expects($this->once())
-            ->method('update');
+        $this->repository->expects($this->once())->method('update');
 
+        // when
         $request = new SendInvoiceRequest(
             title: null,
             description: null,
         );
 
-        // when
         $this->service->send($invoiceId, $request);
 
         // then - verified through mocks
@@ -113,6 +112,8 @@ final class InvoiceSenderTest extends TestCase
     public function testThrowsExceptionWhenInvoiceNotFound(): void
     {
         $invoiceId = Uuid::uuid7();
+
+        // then
         $this->expectException(EntityNotFoundException::class);
         $this->expectExceptionMessage("Invoice with ID '{$invoiceId->toString()}' not found.");
 
@@ -128,15 +129,17 @@ final class InvoiceSenderTest extends TestCase
         $this->repository->expects($this->never())
             ->method('update');
 
-        $request = new SendInvoiceRequest(title: null, description: null);
 
         // when
+        $request = new SendInvoiceRequest(title: null, description: null);
         $this->service->send($invoiceId, $request);
     }
 
     public function testThrowsExceptionWhenInvoiceNotInDraftStatus(): void
     {
         $invoiceId = Uuid::uuid7();
+
+        // then
         $this->expectException(SendInvoiceException::class);
         $this->expectExceptionMessage("Invoice $invoiceId cannot be sent. Current status is sending, but must be draft.");
 
@@ -154,15 +157,17 @@ final class InvoiceSenderTest extends TestCase
             ->method('notify')
             ->willReturn(true);
 
-        $request = new SendInvoiceRequest(title: null, description: null);
 
         // when
+        $request = new SendInvoiceRequest(title: null, description: null);
         $this->service->send($invoiceId, $request);
     }
 
     public function testThrowsExceptionWhenInvoiceHasNoProductLines(): void
     {
         $invoiceId = Uuid::uuid7();
+
+        // then
         $this->expectException(SendInvoiceException::class);
         $this->expectExceptionMessage("Invoice $invoiceId cannot be sent. It must have at least one valid product line.");
 
@@ -184,9 +189,9 @@ final class InvoiceSenderTest extends TestCase
             ->method('notify')
             ->willReturn(true);
 
-        $request = new SendInvoiceRequest(title: null, description: null);
 
-        // whe
+        // when
+        $request = new SendInvoiceRequest(title: null, description: null);
         $this->service->send($invoiceId, $request);
     }
 
@@ -194,6 +199,8 @@ final class InvoiceSenderTest extends TestCase
     {
         // given
         $invoiceId = Uuid::uuid7();
+
+        // then
         $this->expectException(Exception::class);
         $this->expectExceptionMessage('Failed to send notification');
 
@@ -212,9 +219,8 @@ final class InvoiceSenderTest extends TestCase
         $this->repository->expects($this->never())
             ->method('update');
 
-        $request = new SendInvoiceRequest(title: null, description: null);
-
         // when
+        $request = new SendInvoiceRequest(title: null, description: null);
         $this->service->send($invoiceId, $request);
     }
 

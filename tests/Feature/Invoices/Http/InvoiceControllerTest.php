@@ -33,7 +33,9 @@ final class InvoiceControllerTest extends TestCase
         ]);
 
         // when
-        $response = $this->getJson(route('invoices.show', ['id' => $invoiceModel->id]));
+        $response = $this->getJson(route('invoices.show', [
+            'id' => $invoiceModel->id,
+        ]));
 
         // then
         $response->assertOk();
@@ -65,7 +67,9 @@ final class InvoiceControllerTest extends TestCase
     public function testShowInvoiceReturnsNotFoundWhenInvoiceDoesNotExist(): void
     {
         // when
-        $response = $this->getJson(route('invoices.show', ['id' => '550e8400-e29b-41d4-a716-446655440000']));
+        $response = $this->getJson(route('invoices.show', [
+            'id' => '550e8400-e29b-41d4-a716-446655440000',
+        ]));
 
         // then
         $response->assertNotFound();
@@ -75,7 +79,9 @@ final class InvoiceControllerTest extends TestCase
     public function testShowInvoiceReturnsNotFoundForInvalidUuid(): void
     {
         // when
-        $response = $this->getJson(route('invoices.show', ['id' => 'invalid-uuid-format']));
+        $response = $this->getJson(route('invoices.show', [
+            'id' => 'invalid-uuid-format',
+        ]));
 
         // then
         $response->assertBadRequest();
@@ -205,10 +211,13 @@ final class InvoiceControllerTest extends TestCase
         });
 
         // when
-        $response = $this->postJson(route('invoices.send', ['id' => $invoiceModel->id]), [
-            'title' => 'Your Invoice',
-            'description' => 'Please review the invoice',
-        ]);
+        $response = $this->postJson(
+            route('invoices.send', ['id' => $invoiceModel->id]),
+            [
+                'title' => 'Your Invoice',
+                'description' => 'Please review the invoice',
+            ]
+        );
 
         // then
         $response->assertOk();

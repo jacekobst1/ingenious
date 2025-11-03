@@ -35,6 +35,8 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
     public function testSuccessfullyMarksInvoiceAsSentToClient(): void
     {
         $invoiceId = Uuid::uuid7();
+
+        // given
         $invoice = new Invoice(
             id: $invoiceId,
             customerName: 'John Doe',
@@ -48,7 +50,6 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
             unitPrice: Money::of(1000, CurrencyEnum::Pln->value),
         ));
 
-        // given
         $invoice->markAsSending();
 
         // mock
@@ -80,7 +81,6 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
 
     public function testLogsWarningWhenInvoiceNotFound(): void
     {
-        // given
         $invoiceId = Uuid::uuid7();
 
         // mock
@@ -105,14 +105,14 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
         $event = new ResourceDeliveredEvent($invoiceId);
         $this->listener->handle($event);
 
-        // then
-        // No exception should be thrown, just logged
+        // then - verified through mocks
     }
 
     public function testLogsErrorWhenInvoiceStatusIsNotSending(): void
     {
-        // given
         $invoiceId = Uuid::uuid7();
+
+        // given
         $invoice = new Invoice(
             id: $invoiceId,
             customerName: 'John Doe',
@@ -151,8 +151,9 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
 
     public function testLogsErrorWhenInvoiceIsAlreadySentToClient(): void
     {
-        // given
         $invoiceId = Uuid::uuid7();
+
+        // given
         $invoice = new Invoice(
             id: $invoiceId,
             customerName: 'John Doe',

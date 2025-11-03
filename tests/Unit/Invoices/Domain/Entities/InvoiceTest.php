@@ -97,6 +97,9 @@ final class InvoiceTest extends TestCase
 
     public function testMarkAsSendingFailsWhenNotInDraftStatus(): void
     {
+        $this->expectException(SendInvoiceException::class);
+        $this->expectExceptionMessage('must be draft');
+
         $invoice = new Invoice(
             id: Uuid::uuid7(),
             customerName: 'John Doe',
@@ -104,22 +107,19 @@ final class InvoiceTest extends TestCase
             status: StatusEnum::SentToClient,
         );
 
-        $this->expectException(SendInvoiceException::class);
-        $this->expectExceptionMessage('must be draft');
-
         $invoice->markAsSending();
     }
 
     public function testMarkAsSendingFailsWhenNoProductLines(): void
     {
+        $this->expectException(SendInvoiceException::class);
+        $this->expectExceptionMessage('must have at least one valid product line');
+
         $invoice = new Invoice(
             id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
-
-        $this->expectException(SendInvoiceException::class);
-        $this->expectExceptionMessage('must have at least one valid product line');
 
         $invoice->markAsSending();
     }
@@ -147,14 +147,14 @@ final class InvoiceTest extends TestCase
 
     public function testMarkAsSentToClientFailsWhenNotInSendingStatus(): void
     {
+        $this->expectException(MarkInvoiceAsSentException::class);
+        $this->expectExceptionMessage('must be sending');
+
         $invoice = new Invoice(
             id: Uuid::uuid7(),
             customerName: 'John Doe',
             customerEmail: 'john@example.com',
         );
-
-        $this->expectException(MarkInvoiceAsSentException::class);
-        $this->expectExceptionMessage('must be sending');
 
         $invoice->markAsSentToClient();
     }
