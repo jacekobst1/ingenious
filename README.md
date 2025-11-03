@@ -1,5 +1,10 @@
 ## Invoice management system
 
+#### Setup Instructions:
+
+* Start the project by running `./start.sh`.
+* To access the container environment, use: `docker compose exec app bash`.
+
 #### Task requirements:
 
 - [requirements.md](requirements.md)
