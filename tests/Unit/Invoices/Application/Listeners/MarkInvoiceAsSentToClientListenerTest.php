@@ -133,7 +133,7 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
 
         $this->logger
             ->expects($this->once())
-            ->method('error')
+            ->method('warning')
             ->with(
                 $this->stringContains('MarkInvoiceAsSentToClientListener fail:'),
                 [
@@ -174,7 +174,7 @@ final class MarkInvoiceAsSentToClientListenerTest extends TestCase
 
         $this->logger
             ->expects($this->once())
-            ->method('error')
+            ->method('warning')
             ->with(
                 $this->stringContains('MarkInvoiceAsSentToClientListener fail'),
                 [

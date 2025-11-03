@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Modules\Invoices\Application\Listeners;
 
+use App\Exceptions\MyDomainException;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Modules\Invoices\Application\Contracts\InvoiceRepositoryInterface;
 use Modules\Notifications\Api\Events\ResourceDeliveredEvent;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 final readonly class MarkInvoiceAsSentToClientListener implements ShouldQueue
 {
@@ -32,8 +32,8 @@ final readonly class MarkInvoiceAsSentToClientListener implements ShouldQueue
         try {
             $invoice->markAsSentToClient();
             $this->repository->update($invoice);
-        } catch (Throwable $e) {
-            $this->logger->error(
+        } catch (MyDomainException $e) {
+            $this->logger->warning(
                 'MarkInvoiceAsSentToClientListener fail: ' . $e->getMessage(),
                 ['invoice_id' => $event->resourceId],
             );
