@@ -9,6 +9,10 @@
 
 - [requirements.md](requirements.md)
 
+#### Postman collection:
+
+- [ingenious.postman_collection.json](ingenious.postman_collection.json)
+
 #### Architecture Decision Log:
 
 - [Exception driven flow](adl/exception-driven-flow.md)

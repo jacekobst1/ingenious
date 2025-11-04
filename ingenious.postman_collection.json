@@ -1,0 +1,130 @@
+{
+    "info": {
+        "_postman_id": "45215fbf-07bd-49ad-a57d-57760fd61927",
+        "name": "Ingenious.build",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "_exporter_id": "6071861"
+    },
+    "item": [
+        {
+            "name": "Create invoice",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Accept",
+                        "value": "application/json",
+                        "type": "text"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"customerName\": \"Jan Kowalski\",\n    \"customerEmail\": \"jan@gm.com\",\n    \"productLines\": [\n        {\n            \"name\": \"Masaż A\",\n            \"quantity\": 3,\n            \"unitPrice\": 2\n        },\n                {\n            \"name\": \"Masaż B\",\n            \"quantity\": 10,\n            \"unitPrice\": 3\n        }\n    ]\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "{{api}}/invoices/",
+                    "host": [
+                        "{{api}}"
+                    ],
+                    "path": [
+                        "invoices",
+                        ""
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Show invoice",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{api}}/invoices/019a4b3a-9eb7-71f7-ac2a-1583d942313d",
+                    "host": [
+                        "{{api}}"
+                    ],
+                    "path": [
+                        "invoices",
+                        "019a4b3a-9eb7-71f7-ac2a-1583d942313d"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Send invoice",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                    "raw": "{{api}}/invoices/019a4b3a-9eb7-71f7-ac2a-1583d942313d/send",
+                    "host": [
+                        "{{api}}"
+                    ],
+                    "path": [
+                        "invoices",
+                        "019a4b3a-9eb7-71f7-ac2a-1583d942313d",
+                        "send"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Confirm notification delivered",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{api}}/notification/hook/delivered/019a45ce-a549-71e1-9fcc-016390c468c6",
+                    "host": [
+                        "{{api}}"
+                    ],
+                    "path": [
+                        "notification",
+                        "hook",
+                        "delivered",
+                        "019a45ce-a549-71e1-9fcc-016390c468c6"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ],
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                    ""
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                    ""
+                ]
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "api",
+            "value": "http://ingenious.test/api"
+        }
+    ]
+}
